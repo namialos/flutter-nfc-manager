@@ -40,6 +40,7 @@ public class SwiftNfcManagerPlugin: NSObject, FlutterPlugin {
     case "Nfc#isAvailable": handleNfcIsAvailable(call.arguments, result: result)
     case "Nfc#startSession": handleNfcStartSession(call.arguments as! [String : Any?], result: result)
     case "Nfc#stopSession": handleNfcStopSession(call.arguments as! [String : Any?], result: result)
+    case "Nfc#restartSession": handleNfcRestartSession(result: result)
     case "Nfc#disposeTag": handleNfcDisposeTag(call.arguments as! [String : Any?], result: result)
     case "Ndef#read": handleNdefRead(call.arguments as! [String : Any?], result: result)
     case "Ndef#write": handleNdefWrite(call.arguments as! [String : Any?], result: result)
@@ -114,6 +115,18 @@ public class SwiftNfcManagerPlugin: NSObject, FlutterPlugin {
     self.session = nil
     result(nil)
   }
+
+  @available(iOS 13.0, *)
+  private func handleNfcRestartSession(result: @escaping FlutterResult) {
+    guard let session = session else {
+      result(nil)
+      return
+    }
+    print("Call restarting tag reader ...")
+    session.restartPolling()
+    result(nil)
+  }
+
 
   @available(iOS 13.0, *)
   private func handleNfcDisposeTag(_ arguments: [String : Any?], result: @escaping FlutterResult) {

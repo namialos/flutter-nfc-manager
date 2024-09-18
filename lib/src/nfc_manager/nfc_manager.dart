@@ -82,6 +82,11 @@ class NfcManager {
     });
   }
 
+  Future<void> restartSession() async {
+    return channel.invokeMethod('Nfc#restartSession');
+  }
+
+
   // _disposeTag
   Future<void> _disposeTag(String handle) async {
     return channel.invokeMethod('Nfc#disposeTag', {
